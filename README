@@ -1,0 +1,7 @@
+Exactly-Once Semantics Guarantor
+
+Create exactly-once semantics where Express implements idempotent endpoints, MongoDB stores processed request IDs. Node.js deduplicates in-flight requests preventing double-processing, shell scripts cleans up old dedup entries, Git tracks exactly-once semantics changes, Unix atomic operations ensure transactional safety, and implement idempotency token validation with TTL preventing ID collision.
+
+Express implements idempotent endpoints, MongoDB stores processed IDs, Node.js deduplicates in-flight requests, Shell scripts cleans old entries, Git tracks semantics version, Unix atomic operations enable dedup, implements idempotency tokens with TTL
+
+Stripe Idempotency Keys or Kafka Exactly-Once (delivery guarantees)
