@@ -1,0 +1,14 @@
+body {
+  font-family: Arial;
+  padding: 20px;
+}
+
+#log {
+  background: #f4f4f4;
+  padding: 10px;
+  height: 200px;
+  overflow-y: auto;
+}
+
+.new { color: green; }
+.cached { color: blue; }

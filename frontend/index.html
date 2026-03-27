@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Exactly Once Demo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>Exactly-Once Payment Demo</h2>
+
+<input id="amount" value="100">
+<input id="key" placeholder="Idempotency Key">
+
+<br><br>
+
+<button id="payBtn" onclick="pay()">Pay</button>
+<button onclick="generateKey()">Generate Key</button>
+
+<hr>
+
+<h3>Stats</h3>
+<p>Requests Sent: <span id="sent">0</span></p>
+<p>Processed: <span id="new">0</span></p>
+<p>Cached: <span id="cached">0</span></p>
+
+<hr>
+
+<div id="log"></div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
