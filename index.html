@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transaction ID Generator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #0f172a, #020617);
+      color: #e2e8f0;
+    }
+
+    .container, .history-page {
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 30px;
+      width: 340px;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    h1 { font-size: 22px; margin-bottom: 20px; color: #f8fafc; }
+
+    select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 12px;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    select {
+      background: #020617;
+      color: #e2e8f0;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    button {
+      background: linear-gradient(135deg, #38bdf8, #6366f1);
+      color: #fff;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .output {
+      margin-top: 20px;
+      background: rgba(255,255,255,0.05);
+      padding: 12px;
+      border-radius: 10px;
+      color: #38bdf8;
+    }
+
+    .dialog {
+      margin-top: 15px;
+      padding: 10px;
+      background: rgba(56,189,248,0.1);
+      border-radius: 10px;
+      display: none;
+      cursor: pointer;
+    }
+
+    .history-page { display: none; }
+
+    .history-list {
+      margin-top: 15px;
+      text-align: left;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .history-item {
+      background: rgba(255,255,255,0.05);
+      padding: 8px;
+      margin-bottom: 8px;
+      border-radius: 8px;
+      font-size: 13px;
+    }
+
+    .back-btn {
+      margin-top: 15px;
+      background: #334155;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="mainPage">
+    <h1>Transaction ID Generator</h1>
+
+    <select id="type">
+      <option value="">Select Transaction Type</option>
+      <option value="pym">Payment</option>
+      <option value="snc">Save/Changes</option>
+      <option value="trf">Transfer of Files</option>
+    </select>
+
+    <button onclick="generateID()">Generate ID</button>
+
+    <div class="output" id="result">Your ID will appear here</div>
+
+    <div class="dialog" id="generatedDialog">✅ ID Generated Successfully</div>
+
+    <div class="dialog" id="viewAllDialog" onclick="openHistory()">📜 See All Transaction IDs</div>
+  </div>
+
+  <div class="history-page" id="historyPage">
+    <h1>All Transaction IDs</h1>
+    <div class="history-list" id="historyList"></div>
+    <button class="back-btn" onclick="goBack()">⬅ Back</button>
+  </div>
+
+  <script>
+    function generateID() {
+      const type = document.getElementById('type').value;
+      const result = document.getElementById('result');
+
+      if (!type) {
+        result.innerText = 'Please select a transaction type!';
+        return;
+      }
+
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let randomPart = '';
+
+      for (let i = 0; i < 8; i++) {
+        randomPart += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+
+      const transactionID = type + randomPart;
+      result.innerText = transactionID;
+
+      // Save to local storage
+      let history = JSON.parse(localStorage.getItem('transactions')) || [];
+      history.push(transactionID);
+      localStorage.setItem('transactions', JSON.stringify(history));
+
+      // Show dialogs
+      document.getElementById('generatedDialog').style.display = 'block';
+      document.getElementById('viewAllDialog').style.display = 'block';
+    }
+
+    function openHistory() {
+      document.getElementById('mainPage').style.display = 'none';
+      document.getElementById('historyPage').style.display = 'block';
+
+      const list = document.getElementById('historyList');
+      list.innerHTML = '';
+
+      const history = JSON.parse(localStorage.getItem('transactions')) || [];
+
+      history.forEach(id => {
+        const div = document.createElement('div');
+        div.className = 'history-item';
+        div.innerText = id;
+        list.appendChild(div);
+      });
+    }
+
+    function goBack() {
+      document.getElementById('mainPage').style.display = 'block';
+      document.getElementById('historyPage').style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>
